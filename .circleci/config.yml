@@ -37,6 +37,9 @@ jobs:
         name: check pws
         command: pwd
     - run:
+        name: Authenticate with registry
+        command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+    - run:
         name: npm publish
         command: npm publish
 
