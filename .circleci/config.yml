@@ -30,15 +30,15 @@ jobs:
         command: npm run build custom-lib
   deploy:
     <<: *defaults
-    steps:
-    - checkout
-    - setup_remote_docker
-    - run:
-        name: deploy to docker
-        command: |
-          cd dist
-          npm pack
-          npm publish
+      steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
 
 
 workflows:
