@@ -34,7 +34,7 @@ jobs:
     - checkout
     - run:
         name: check pws
-        command: ls 
+        command: ls
     - run:
         name: check pws
         command: cd ~/APP/dist
@@ -50,7 +50,6 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-    - build
     - deploy:
         requires:
         - build
