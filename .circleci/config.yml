@@ -59,10 +59,11 @@ workflows:
           tags:
             only: /^v.*/
     - build:
-
-    - deploy:
         requires:
         - test
+    - deploy:
+        requires:
+        - build
         filters:
           tags:
             only: /^v.*/
