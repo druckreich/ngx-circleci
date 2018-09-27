@@ -34,6 +34,9 @@ jobs:
     - checkout
     - run:
         name: check pws
+        command: ls 
+    - run:
+        name: check pws
         command: cd ~/APP/dist
     - run:
         name: Authenticate with registry
