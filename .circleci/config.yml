@@ -35,10 +35,10 @@ jobs:
     - setup_remote_docker
     - run:
         name: check pws
-        command: pwd
+        command: cd ~/APP
     - run:
         name: Authenticate with registry
-        command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+        command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/APP/.npmrc
     - run:
         name: npm publish
         command: npm publish
