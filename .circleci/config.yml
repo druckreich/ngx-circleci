@@ -29,11 +29,11 @@ jobs:
         name: build project
         command: npm run build custom-lib
     - run:
-        name: check pws
-        command: cd ~/APP/dist
+        name: Go to /dist
+        command: cd ~/APP/dist/custom-lib
     - run:
         name: Authenticate with registry
-        command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/APP/dist/.npmrc
+        command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/APP/.npmrc
     - run:
         name: npm publish
         command: npm publish
