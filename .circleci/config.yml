@@ -1,71 +1,51 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
-
 defaults: &defaults
-  working_directory: ~/repo
+  working_directory: ~/APP
   docker:
-  - image: circleci/node:8.9.1
+  - image: circleci/node:9.5.0
 
+version: 2
 jobs:
-  test:
+  build:
     <<: *defaults
     steps:
     - checkout
-
     - restore_cache:
         keys:
-        - v1-dependencies-
-        # fallback to using the latest cache if no exact match is found
-        - v1-dependencies-
-
-    - run: npm install
-
+        - dependency-cache-{{ checksum "package.json" }}
+        - dependency-cache-
+    - run:
+        name: check versions for node and npm
+        command: |
+          node --version
+          npm --version
     - save_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
         paths:
-        - node_modules
-        key: v1-dependencies-
-
-    - persist_to_workspace:
-        root: ~/repo
-        paths: .
-  build:
+        - ~/app-name/node_modules/
+    - run:
+        name: install dependencies
+        command: npm install
     - run:
         name: build project
-        command: npm run build
+        command: npm run build custom-lib
   deploy:
     <<: *defaults
     steps:
-    - attach_workspace:
-        at: ~/repo/dist
+    - checkout
+    - setup_remote_docker
     - run:
-        name: Authenticate with registry
-        command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
-    - run:
-        name: npm pack
-        command: npm pack
-    - run:
-        name: Publish package
-        command: npm publish
+        name: deploy to docker
+        command: |
+          cd dist
+          npm pack
+          npm publish
+
 
 workflows:
   version: 2
-  test-deploy:
+  build-and-deploy:
     jobs:
-    - test:
-        filters:
-          tags:
-            only: /^v.*/
-    - build:
-        requires:
-        - test
+    - build
     - deploy:
         requires:
         - build
-        filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
