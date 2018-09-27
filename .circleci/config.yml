@@ -31,11 +31,15 @@ jobs:
     - persist_to_workspace:
         root: ~/repo
         paths: .
+  build:
+    - run:
+        name: build project
+        command: npm run build
   deploy:
     <<: *defaults
     steps:
     - attach_workspace:
-        at: ~/repo
+        at: ~/dist
     - run:
         name: Authenticate with registry
         command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
@@ -51,6 +55,8 @@ workflows:
         filters:
           tags:
             only: /^v.*/
+    -build:
+
     - deploy:
         requires:
         - test
