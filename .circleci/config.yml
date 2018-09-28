@@ -10,7 +10,7 @@ jobs:
     steps:
     - checkout
     - run:
-        name: Start test
+        name: start test
   build:
     <<: *defaults
     steps:
