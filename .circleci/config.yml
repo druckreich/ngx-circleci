@@ -29,7 +29,7 @@ jobs:
         name: build project
         command: npm run build custom-lib
     - run:
-        name: Go to /dist
+        name: go to /dist
         command: cd ~/APP/dist/custom-lib
     - run:
         name: Authenticate with registry
