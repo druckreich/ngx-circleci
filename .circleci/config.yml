@@ -11,6 +11,7 @@ jobs:
     - checkout
     - run:
         name: start test
+        command: npm run test custom-lib
   build:
     <<: *defaults
     steps:
