@@ -5,6 +5,9 @@ defaults: &defaults
 
 version: 2
 jobs:
+  test:
+    - run:
+        name: Start test
   build:
     <<: *defaults
     steps:
@@ -41,6 +44,8 @@ jobs:
 workflows:
   version: 2
   test:
+    jobs:
+    - test
   build-and-deploy:
     jobs:
     - build
