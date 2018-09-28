@@ -10,7 +10,10 @@ jobs:
     steps:
     - checkout
     - run:
-        name: start test
+        name: install dependencies
+        command: npm install
+    - run:
+        name: run test
         command: npm run test custom-lib
   build:
     <<: *defaults
